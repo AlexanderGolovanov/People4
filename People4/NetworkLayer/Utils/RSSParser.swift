@@ -14,9 +14,11 @@ class RSSParser: NSObject, XMLParserDelegate {
         case link = "link"
         case date = "pubDate"
         case image = "enclosure"
+        case category = "category"
     }
     
     private let xmlParser: XMLParser
+    private let target: ApiTarget
     private var items: [NewsItemDTO] = []
     private var elements: [ItemKey: String] = [:]
     private var currentItemKey: ItemKey?
@@ -33,8 +35,9 @@ class RSSParser: NSObject, XMLParserDelegate {
     
     // MARK: - Lifecycle
     
-    init(data: Data) {
-        xmlParser = XMLParser(data: data)
+    init(data: Data, target: ApiTarget) {
+        self.xmlParser = XMLParser(data: data)
+        self.target = target
     }
     
     func parse(completion: (([NewsItemDTO]) -> Void)?) {
@@ -98,8 +101,9 @@ class RSSParser: NSObject, XMLParserDelegate {
             let linkStr = nodes[.link], let url = URL(string: linkStr),
             let description = nodes[.description],
             let imageStr = nodes[.image], let imageURL = URL(string: imageStr),
-            let dateStr = nodes[.date], let date = dateFormatter.date(from: dateStr)
+            let dateStr = nodes[.date], let date = dateFormatter.date(from: dateStr),
+            let category = nodes[.category]
         else { return nil }
-        return NewsItemDTO(title: title, link: url, imageURL: imageURL, date: date, description: description)
+        return NewsItemDTO(title: title, link: url, imageURL: imageURL, category: category, date: date, description: description, source: target)
     }
 }

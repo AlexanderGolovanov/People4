@@ -5,7 +5,7 @@ enum ApiError {
     case missingData
 }
 
-enum ApiTarget: String {
+enum ApiTarget: String, Codable {
     case lenta = "http://lenta.ru/rss"
     case gazeta = "http://www.gazeta.ru/export/rss/lenta.xml"
 }
@@ -33,12 +33,12 @@ class ApiProvider: IApiProvider {
     
     func getItems<T: Codable>(completionHandler: @escaping ((ApiResponse<T>) -> Void)) {
         let url = URL(string: target.rawValue)!
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data else {
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let data = data, let `self` = self else {
                 completionHandler(.onError(error: ApiError.missingData))
                 return
             }
-            let parser = RSSParser(data: data)
+            let parser = RSSParser(data: data, target: self.target)
             parser.parse { items in
                 completionHandler(.onSuccess(items: (items as? [T]) ?? []))
             }

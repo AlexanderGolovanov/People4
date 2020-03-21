@@ -12,8 +12,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
         appCoordinator = AppCoordinator(window: window!)
-        NewsAggregatorService(targets: ApiTarget.gazeta, ApiTarget.lenta)
-        saveContext()
         return true
     }
 

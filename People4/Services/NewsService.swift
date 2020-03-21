@@ -1,7 +1,7 @@
 import Foundation
 
 protocol INewsService: class {
-    func getItems<T: Codable>(completionHandler: @escaping (([T]?) -> Void))
+    func getItems(completionHandler: @escaping (([News]?) -> Void))
 }
 
 class NewsService: INewsService {
@@ -16,11 +16,11 @@ class NewsService: INewsService {
         self.apiProvider = provider
     }
     
-    func getItems<T>(completionHandler: @escaping (([T]?) -> Void)) where T: Codable {
-        apiProvider.getItems { (response: ApiResponse<T>) in
+    func getItems(completionHandler: @escaping (([News]?) -> Void)) {
+        apiProvider.getItems { (response: ApiResponse<NewsItemDTO>) in
             switch response {
             case .onSuccess(let items):
-                completionHandler(items)
+                completionHandler(items.map { News(dto: $0) })
             case .onError:
                 completionHandler(nil)
             }
