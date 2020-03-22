@@ -1,7 +1,7 @@
 import Foundation
 import CoreData
 
-protocol IPersistentStorage {
+protocol IPersistentStorage: class {
     func getItems() -> [News]
     func saveItems(_ items: [News])
     func markAsRead(news: News)
@@ -10,8 +10,6 @@ protocol IPersistentStorage {
 class PersistentStorage: IPersistentStorage {
 
     // MARK: - Properties
-    
-    public static let shared: IPersistentStorage = PersistentStorage()
     
     private lazy var persistentContainer: NSPersistentContainer = {
         /*

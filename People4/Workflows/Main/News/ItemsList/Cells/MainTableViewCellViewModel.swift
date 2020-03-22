@@ -12,7 +12,7 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
     // MARK: - Properties
     
     private let news: News
-    private let cache: NSCache<NSString, UIImage>
+    private let imageCache: IImageCacheService = ServiceLocator.getService()
     
     var title: String {
         return news.title
@@ -28,13 +28,12 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
     
     // MARK: - Lifecycle
     
-    init(model: News, cache: NSCache<NSString, UIImage>) {
+    init(model: News) {
         self.news = model
-        self.cache = cache
     }
 
     func loadImage(completionHandler: ((UIImage) -> Void)?) {
-        if let url = news.imageURL, let cachedVersion = cache.object(forKey: NSString(string: url.absoluteString)) {
+        if let url = news.imageURL, let cachedVersion = imageCache.getImage(for: url) {
             completionHandler?(cachedVersion)
         } else {
             DispatchQueue.global().async { [weak self] in
@@ -43,7 +42,7 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
                     let data = try? Data(contentsOf: url),
                     let image = UIImage(data: data)
                     else { return }
-                self?.cache.setObject(image, forKey: NSString(string: url.absoluteString))
+                self?.imageCache.insertImage(image, for: url)
                 self?.news.cachedImage = image
                 completionHandler?(image)
             }

@@ -27,7 +27,7 @@ class News: Equatable {
         link = dbo.link ?? URL(string: "http://onime.com")!
         imageURL = dbo.imageURL
         date = dbo.date ?? Date(timeIntervalSince1970: 0)
-        description = dbo.description
+        description = dbo.text ?? ""
         category = dbo.category ?? ""
         source = ApiTarget(rawValue: dbo.source ?? "") ?? .none
         isReaded = dbo.isReaded

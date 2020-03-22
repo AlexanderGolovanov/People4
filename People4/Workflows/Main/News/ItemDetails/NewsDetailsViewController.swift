@@ -30,6 +30,14 @@ class NewsDetailsViewController: UIViewController {
 
     // MARK: - Private
 
+    @objc private func onBackButtonTapped() {
+        viewModel.backAction()
+    }
+    
+    private func setupViews() {
+        navigationItem.leftBarButtonItem = .init(title: "Back", style: .done, target: self, action: #selector(onBackButtonTapped))
+    }
+    
     private func bindToViewModel() {
         titleLabel.text = viewModel.title
         descriptionLabel.text = viewModel.description
@@ -37,10 +45,6 @@ class NewsDetailsViewController: UIViewController {
         dateLabel.text = getDateFormatter().string(from: viewModel.date)
         imageView.image = viewModel.image
         sourceLabel.text = viewModel.source
-    }
-
-    private func setupViews() {
-
     }
     
     private func getDateFormatter() -> DateFormatter {

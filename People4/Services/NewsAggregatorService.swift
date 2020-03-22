@@ -16,7 +16,7 @@ class NewsAggregatorService: INewsAggregatorService {
     // MARK: - Properties
     
     private let sources: [INewsService]
-    private let storage: IPersistentStorage = PersistentStorage.shared
+    private let storage: IPersistentStorage = ServiceLocator.getService()
     private let queue = DispatchQueue(label: "newsQueue", qos: .utility, attributes: .concurrent)
     private let group = DispatchGroup()
     

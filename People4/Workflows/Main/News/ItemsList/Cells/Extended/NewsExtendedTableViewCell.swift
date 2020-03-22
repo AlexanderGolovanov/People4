@@ -37,6 +37,7 @@ class NewsExtendedTableViewCell: UITableViewCell {
         titleLabel.text = viewModel?.title
         titleLabel.alpha = viewModel?.isReaded == true ? 0.5 : 1.0
         descriptionLabel.text = viewModel?.description
+        descriptionLabel.alpha = viewModel?.isReaded == true ? 0.5 : 1.0
         viewModel?.loadImage { [weak self] image in
             DispatchQueue.main.async {
                 self?.photoView.image = image

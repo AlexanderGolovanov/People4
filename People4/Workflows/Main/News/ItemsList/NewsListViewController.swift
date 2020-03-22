@@ -22,7 +22,6 @@ class NewsListViewController: UIViewController {
     // MARK: - Properties
 
     var viewModel: INewsListViewModel!
-    private let cache = NSCache<NSString, UIImage>()
     private var style: NewsPresentationSyle = .compact
     
     // MARK: - Lifecycle
@@ -81,13 +80,13 @@ extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
         case .compact:
             let cell = tableView.dequeueReusableCell(withIdentifier: NewsDefaultTableViewCell.reuseIdentifier) as? NewsDefaultTableViewCell
             if let item = viewModel.itemForIndexPath(indexPath) {
-                cell?.configure(with: NewsTableViewCellViewModel(model: item, cache: cache))
+                cell?.configure(with: NewsTableViewCellViewModel(model: item))
             }
             return cell ?? UITableViewCell()
         case .detail:
             let cell = tableView.dequeueReusableCell(withIdentifier: NewsExtendedTableViewCell.reuseIdentifier) as? NewsExtendedTableViewCell
             if let item = viewModel.itemForIndexPath(indexPath) {
-                cell?.configure(with: NewsTableViewCellViewModel(model: item, cache: cache))
+                cell?.configure(with: NewsTableViewCellViewModel(model: item))
             }
             return cell ?? UITableViewCell()
         }

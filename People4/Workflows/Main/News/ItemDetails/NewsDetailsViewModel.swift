@@ -8,10 +8,12 @@ protocol INewsDetailsViewModel {
     var image: UIImage? { get }
     var source: String { get }
     func markAsRead()
+    func backAction()
 }
 
 protocol INewsDetailsViewModelCoordinable {
     var onReadingNews: ((News) -> Void)? { get }
+    var onBackAction: (() -> Void)? { get }
 }
 
 class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordinable {
@@ -46,6 +48,7 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
     }
     
     var onReadingNews: ((News) -> Void)?
+    var onBackAction: (() -> Void)?
     
     // MARK: - Lifecycle
 
@@ -57,6 +60,10 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
         news.isReaded = true
         newsAggregator.markAsRead(news: news)
         onReadingNews?(news)
+    }
+    
+    func backAction() {
+        onBackAction?()
     }
     
     // MARK: - Private
