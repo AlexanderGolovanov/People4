@@ -24,6 +24,7 @@ class NewsDetailsViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         bindToViewModel()
+        viewModel.markAsRead()
     }
 
 

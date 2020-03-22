@@ -1,6 +1,7 @@
 import Foundation
 
-protocol IMainViewModel {
+protocol INewsListViewModel {
+    var onRefreshItem: ((IndexPath) -> Void)? { get set }
     var onDataSourceChanged: (([News]) -> Void)? { get set }
     func refreshItems()
     func numberOfItems() -> Int
@@ -8,17 +9,20 @@ protocol IMainViewModel {
     func selectItemForIndexPath(_ indexPath: IndexPath)
 }
 
-protocol IMainViewModelCoordinable {
+protocol INewsListViewModelCoordinable {
     var onSelectNewsAction: ((News) -> Void)? { get }
+    func newsWasReaded(news: News)
 }
 
-class MainViewModel: IMainViewModel, IMainViewModelCoordinable {
+class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
 
     // MARK: - Properties
 
     private var items: [News] = []
     private let newsAggregator = NewsAggregatorService(sources: .gazeta, .lenta)
+    private var lastSyncDate = Date()
     
+    var onRefreshItem: ((IndexPath) -> Void)?
     var onSelectNewsAction: ((News) -> Void)?
     var onDataSourceChanged: (([News]) -> Void)?
     
@@ -46,6 +50,12 @@ class MainViewModel: IMainViewModel, IMainViewModelCoordinable {
     func selectItemForIndexPath(_ indexPath: IndexPath) {
         if let item = itemForIndexPath(indexPath) {
             onSelectNewsAction?(item)
+        }
+    }
+    
+    func newsWasReaded(news: News) {
+        if let row = items.firstIndex(of: news) {
+            onRefreshItem?(IndexPath(row: row, section: 0))
         }
     }
     

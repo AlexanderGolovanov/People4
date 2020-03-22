@@ -1,14 +1,5 @@
 import UIKit
 
-enum StoryBoard: String {
-    case main = "Main"
-    
-    func instantiateViewController<T: UIViewController>(withIdentifier: String) -> T {
-        let storyBoard = UIStoryboard(name: rawValue, bundle: nil)
-        return storyBoard.instantiateViewController(withIdentifier: withIdentifier) as! T
-    }
-}
-
 class AppCoordinator {
     
     // MARK: - Properties
@@ -31,24 +22,27 @@ class AppCoordinator {
     
     // MARK: - Private
     
-    private func openNewsDetailsModule(news: News) {
-        let vc = makeNewsDetailsModule(news: news)
+    private func openNewsDetailsModule(news: News, readingHandler: ((News) -> Void)? = nil) {
+        let vc = makeNewsDetailsModule(news: news, readingHandler: readingHandler)
         router.pushViewController(vc, animated: true)
     }
     
     private func makeMainModule() -> UIViewController {
-        let vc: MainViewController = StoryBoard.main.instantiateViewController(withIdentifier: "mainViewController")
-        let vm = MainViewModel()
-        vm.onSelectNewsAction = { [weak self] news in
-            self?.openNewsDetailsModule(news: news)
+        let vc: NewsListViewController = Storyboard.main.instantiateViewController(withIdentifier: "mainViewController")
+        let vm = NewsListViewModel()
+        vm.onSelectNewsAction = { [weak self, weak vm] news in
+            self?.openNewsDetailsModule(news: news) { news in
+                vm?.newsWasReaded(news: news)
+            }
         }
         vc.viewModel = vm
         return vc
     }
     
-    private func makeNewsDetailsModule(news: News) -> UIViewController {
-        let vc: NewsDetailsViewController = StoryBoard.main.instantiateViewController(withIdentifier: "NewsDetailsViewController")
+    private func makeNewsDetailsModule(news: News, readingHandler: ((News) -> Void)? = nil) -> UIViewController {
+        let vc: NewsDetailsViewController = Storyboard.main.instantiateViewController(withIdentifier: "NewsDetailsViewController")
         let vm = NewsDetailsViewModel(news: news)
+        vm.onReadingNews = readingHandler
         vc.viewModel = vm
         return vc
     }

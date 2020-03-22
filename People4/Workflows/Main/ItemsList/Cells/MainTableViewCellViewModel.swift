@@ -1,53 +1,13 @@
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
-
-    // MARK: - Outlets
-    
-    @IBOutlet private var photoView: UIImageView!
-    @IBOutlet private var titleLabel: UILabel!
-    
-    
-    // MARK: - Properties
-
-    static let height: CGFloat = 65
-    static let reuseIdentifier = "MainTableViewCell"
-    
-    private var viewModel: IMainTableViewCellViewModel? {
-        didSet {
-            bindToViewModel()
-        }
-    }
-
-    func configure(with viewModel: IMainTableViewCellViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        viewModel = nil
-        photoView.image = nil
-    }
-    
-    // MARK: - Private
-    
-    func bindToViewModel() {
-        titleLabel.text = viewModel?.title
-        viewModel?.loadImage { [weak self] image in
-            DispatchQueue.main.async {
-                self?.photoView.image = image
-            }
-        }
-    }
-}
-
-protocol IMainTableViewCellViewModel {
+protocol INewsTableViewCellViewModel {
     var title: String { get }
     var description: String { get }
+    var isReaded: Bool { get }
     func loadImage(completionHandler: ((UIImage) -> Void)?)
 }
 
-class MainTableViewCellViewModel: IMainTableViewCellViewModel {
+class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
     
     // MARK: - Properties
     
@@ -60,6 +20,10 @@ class MainTableViewCellViewModel: IMainTableViewCellViewModel {
     
     var description: String {
         return news.description
+    }
+    
+    var isReaded: Bool {
+        return news.isReaded
     }
     
     // MARK: - Lifecycle
@@ -86,3 +50,4 @@ class MainTableViewCellViewModel: IMainTableViewCellViewModel {
         }
     }
 }
+

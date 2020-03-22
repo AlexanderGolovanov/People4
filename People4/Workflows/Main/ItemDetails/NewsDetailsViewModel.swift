@@ -7,10 +7,11 @@ protocol INewsDetailsViewModel {
     var description: String { get }
     var image: UIImage? { get }
     var source: String { get }
+    func markAsRead()
 }
 
 protocol INewsDetailsViewModelCoordinable {
-
+    var onReadingNews: ((News) -> Void)? { get }
 }
 
 class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordinable {
@@ -18,6 +19,7 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
     // MARK: - Properties
     
     private let news: News
+    private let newsAggregator = NewsAggregatorService(sources: .gazeta, .lenta)
     
     var title: String {
         return news.title
@@ -43,13 +45,20 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
         return news.cachedImage
     }
     
+    var onReadingNews: ((News) -> Void)?
+    
     // MARK: - Lifecycle
 
     init(news: News) {
         self.news = news
     }
 
-
+    func markAsRead() {
+        news.isReaded = true
+        newsAggregator.markAsRead(news: news)
+        onReadingNews?(news)
+    }
+    
     // MARK: - Private
 
 }

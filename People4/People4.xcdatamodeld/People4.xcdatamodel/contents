@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="NewsItemDBO" representedClassName=".NewsItemDBO" syncable="YES">
+    <entity name="News" representedClassName=".NewsItemDBO" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="imageURL" optional="YES" attributeType="URI"/>
+        <attribute name="isReaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="link" attributeType="URI"/>
+        <attribute name="source" optional="YES" attributeType="String"/>
         <attribute name="text" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="NewsItemDBO" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="News" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>

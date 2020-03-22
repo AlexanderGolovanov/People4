@@ -2,6 +2,7 @@ import Foundation
 
 protocol INewsAggregatorService {
     func getItems(completionHandler: (([News]) -> Void)?)
+    func markAsRead(news: News)
 }
 
 extension INewsAggregatorService {
@@ -15,6 +16,7 @@ class NewsAggregatorService: INewsAggregatorService {
     // MARK: - Properties
     
     private let sources: [INewsService]
+    private let storage: IPersistentStorage = PersistentStorage.shared
     private let queue = DispatchQueue(label: "newsQueue", qos: .utility, attributes: .concurrent)
     private let group = DispatchGroup()
     
@@ -36,8 +38,13 @@ class NewsAggregatorService: INewsAggregatorService {
                 }
             }
         }
-        group.notify(queue: queue) {
-            completionHandler?(news)
+        group.notify(queue: queue) { [weak self] in
+            self?.storage.saveItems(news)
+            completionHandler?(self?.storage.getItems() ?? [])
         }
+    }
+    
+    func markAsRead(news: News) {
+        storage.markAsRead(news: news)
     }
 }
