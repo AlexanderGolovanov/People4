@@ -1,39 +1,5 @@
 import Foundation
 
-protocol ILocalizedError: Error {
-    var localizedMessage: String { get }
-}
-
-enum ApiError {
-    case mappingFailed
-    case missingData
-    case networkError(message: String)
-}
-
-extension ApiError: ILocalizedError {
-    var localizedMessage: String {
-        switch self {
-        case .mappingFailed:
-            return "mappingFailed"
-        case .missingData:
-            return "missingData"
-        case .networkError(let message):
-            return message
-        }
-    }
-}
-
-enum ApiTarget: String, Codable {
-    case lenta = "http://lenta.ru/rss"
-    case gazeta = "http://www.gazeta.ru/export/rss/lenta.xml"
-    case none
-}
-
-enum ApiResponse<T> {
-    case onSuccess(items: [T])
-    case onError(error: ILocalizedError)
-}
-
 protocol IApiProvider: class {
     func getItems<T: Codable>(completionHandler: @escaping ((ApiResponse<T>) -> Void))
 }

@@ -87,10 +87,10 @@ class NewsListViewController: UIViewController {
     }
 
     private func setupViews() {
-        let defaultCellNib = UINib(nibName: NewsDefaultTableViewCell.reuseIdentifier, bundle: nil)
-        let extendedCellNib = UINib(nibName: NewsExtendedTableViewCell.reuseIdentifier, bundle: nil)
-        tableView.register(defaultCellNib, forCellReuseIdentifier: NewsDefaultTableViewCell.reuseIdentifier)
-        tableView.register(extendedCellNib, forCellReuseIdentifier: NewsExtendedTableViewCell.reuseIdentifier)
+        let defaultCellNib = UINib(nibName: NewsDefaultTableViewCell.identifier, bundle: nil)
+        let extendedCellNib = UINib(nibName: NewsExtendedTableViewCell.identifier, bundle: nil)
+        tableView.register(defaultCellNib, forCellReuseIdentifier: NewsDefaultTableViewCell.identifier)
+        tableView.register(extendedCellNib, forCellReuseIdentifier: NewsExtendedTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .singleLine
@@ -111,13 +111,13 @@ extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch style {
         case .compact:
-            let cell = tableView.dequeueReusableCell(withIdentifier: NewsDefaultTableViewCell.reuseIdentifier) as? NewsDefaultTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsDefaultTableViewCell.identifier) as? NewsDefaultTableViewCell
             if let item = viewModel.itemForIndexPath(indexPath) {
                 cell?.configure(with: NewsTableViewCellViewModel(model: item))
             }
             return cell ?? UITableViewCell()
         case .detail:
-            let cell = tableView.dequeueReusableCell(withIdentifier: NewsExtendedTableViewCell.reuseIdentifier) as? NewsExtendedTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsExtendedTableViewCell.identifier) as? NewsExtendedTableViewCell
             if let item = viewModel.itemForIndexPath(indexPath) {
                 cell?.configure(with: NewsTableViewCellViewModel(model: item))
             }

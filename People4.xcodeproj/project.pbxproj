@@ -27,6 +27,9 @@
 		848B3CF0242886DA00725643 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848B3CEE242886DA00725643 /* CategoryTableViewCell.swift */; };
 		848B3CF22428947A00725643 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848B3CF12428947A00725643 /* Array+Extensions.swift */; };
 		84A245652429044A003659F1 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A245642429044A003659F1 /* UIViewController+Extensions.swift */; };
+		84A2456724291148003659F1 /* ApiTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2456624291148003659F1 /* ApiTarget.swift */; };
+		84A2456924291189003659F1 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2456824291189003659F1 /* ApiError.swift */; };
+		84A2456B242911AE003659F1 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2456A242911AE003659F1 /* ApiResponse.swift */; };
 		84A64E31242871920004767A /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64E2E242871920004767A /* SettingsCoordinator.swift */; };
 		84A64E32242871920004767A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64E2F242871920004767A /* SettingsViewController.swift */; };
 		84A64E33242871920004767A /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64E30242871920004767A /* SettingsViewModel.swift */; };
@@ -86,6 +89,9 @@
 		848B3CEE242886DA00725643 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		848B3CF12428947A00725643 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		84A245642429044A003659F1 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		84A2456624291148003659F1 /* ApiTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiTarget.swift; sourceTree = "<group>"; };
+		84A2456824291189003659F1 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
+		84A2456A242911AE003659F1 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		84A64E2E242871920004767A /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		84A64E2F242871920004767A /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		84A64E30242871920004767A /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -330,6 +336,9 @@
 				8433150A2426526000727AC7 /* Utils */,
 				84C194012424AACD006EF5D1 /* Models */,
 				84C193FF2424A1ED006EF5D1 /* ApiProvider.swift */,
+				84A2456624291148003659F1 /* ApiTarget.swift */,
+				84A2456824291189003659F1 /* ApiError.swift */,
+				84A2456A242911AE003659F1 /* ApiResponse.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -496,7 +505,9 @@
 				84C194002424A1ED006EF5D1 /* ApiProvider.swift in Sources */,
 				84F1BBBB24278330001131A8 /* MainTableViewCellViewModel.swift in Sources */,
 				84C194032424AAD8006EF5D1 /* NewsItemDTO.swift in Sources */,
+				84A2456B242911AE003659F1 /* ApiResponse.swift in Sources */,
 				843315162426558C00727AC7 /* NewsAggregatorService.swift in Sources */,
+				84A2456924291189003659F1 /* ApiError.swift in Sources */,
 				8433152C242669F700727AC7 /* NewsDefaultTableViewCell.swift in Sources */,
 				84B6C5B2242797F2007A9E5F /* BaseCoordinator.swift in Sources */,
 				846F07BD2421EA8500C841B8 /* PersistentStorage.swift in Sources */,
@@ -511,6 +522,7 @@
 				84A64E33242871920004767A /* SettingsViewModel.swift in Sources */,
 				84F1BBBF24278809001131A8 /* ServiceLocator.swift in Sources */,
 				84B83AF52428EB6E00383F1F /* SettingsService.swift in Sources */,
+				84A2456724291148003659F1 /* ApiTarget.swift in Sources */,
 				84F4688D2426782A00B1C9F7 /* NewsDetailsViewModel.swift in Sources */,
 				846F07932421E4C600C841B8 /* AppDelegate.swift in Sources */,
 				84347393242873960093DD53 /* Settings.swift in Sources */,

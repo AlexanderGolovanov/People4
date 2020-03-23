@@ -78,8 +78,8 @@ class SettingsViewController: UIViewController {
     }
 
     private func setupViews() {
-        let cellNib = UINib(nibName: CategoryTableViewCell.reuseIdentifier, bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: CategoryTableViewCell.reuseIdentifier)
+        let cellNib = UINib(nibName: CategoryTableViewCell.identifier, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: CategoryTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .singleLine
@@ -104,7 +104,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.reuseIdentifier) as? CategoryTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier) as? CategoryTableViewCell
         if let item = viewModel.itemForIndexPath(indexPath) {
             cell?.configure(with: item)
         }

@@ -10,6 +10,7 @@ extension UIViewController {
     func displayRetryAlert(with message: String, completionHandler: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(.init(title: "Retry", style: .default, handler: { _ in completionHandler?() }))
+        alert.addAction(.init(title: "Cancel", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 }

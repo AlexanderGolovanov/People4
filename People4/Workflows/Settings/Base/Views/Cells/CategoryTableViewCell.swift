@@ -10,7 +10,7 @@ class CategoryTableViewCell: UITableViewCell {
     // MARK: - Properties
 
     static let height: CGFloat = 50
-    static let reuseIdentifier: String = "CategoryTableViewCell"
+    static let identifier: String = "CategoryTableViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()

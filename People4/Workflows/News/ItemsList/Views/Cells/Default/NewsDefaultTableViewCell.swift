@@ -10,7 +10,7 @@ class NewsDefaultTableViewCell: UITableViewCell {
     // MARK: - Properties
 
     static let height: CGFloat = 65
-    static let reuseIdentifier = "NewsDefaultTableViewCell"
+    static let identifier = "NewsDefaultTableViewCell"
     
     private var viewModel: INewsTableViewCellViewModel? {
         didSet {
