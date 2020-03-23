@@ -1,9 +1,12 @@
 import Foundation
 
+enum RequestableViewModelState { case idle, loading, error, finished }
+
 protocol INewsListViewModel {
     var onRefreshItem: ((IndexPath) -> Void)? { get set }
     var onDataSourceChanged: (([News]) -> Void)? { get set }
-    func refreshItems()
+    var onStateChanged: ((RequestableViewModelState) -> Void)? { get set }
+    func loadItems()
     func numberOfItems() -> Int
     func itemForIndexPath(_ indexPath: IndexPath) -> News?
     func selectItemForIndexPath(_ indexPath: IndexPath)
@@ -13,6 +16,7 @@ protocol INewsListViewModel {
 protocol INewsListViewModelCoordinable {
     var onSelectNewsAction: ((News) -> Void)? { get }
     var onSettingsAction: (() -> Void)? { get }
+    var onErrorEvent: ((String) -> Void)? { get }
     func newsWasReaded(news: News)
     func settingsWasChanged()
 }
@@ -24,38 +28,35 @@ class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
     private var items: [News] = []
     private var filteredItems: [News] = []
     private let newsAggregator = NewsAggregatorService(sources: .gazeta, .lenta)
-    private let settingsStorage: IKeyValueStorage = ServiceLocator.getService()
+    private let settingsService: ISettingsService = ServiceLocator.getService()
     private var lastSyncDate = Date()
     private var timer: Timer?
     
-    var settings: Settings? {
-        return settingsStorage.getValue(for: "SettingsKey")
+    private var state: RequestableViewModelState = .idle {
+        didSet {
+            onStateChanged?(state)
+        }
+    }
+    
+    var settings: Settings {
+        return settingsService.getSettings()
     }
     
     var onRefreshItem: ((IndexPath) -> Void)?
     var onSelectNewsAction: ((News) -> Void)?
     var onDataSourceChanged: (([News]) -> Void)?
     var onSettingsAction: (() -> Void)?
+    var onStateChanged: ((RequestableViewModelState) -> Void)?
+    var onErrorEvent: ((String) -> Void)?
     
     // MARK: - IMainViewModel Methods
     
-    func refreshItems() {
-        getItems { [weak self] items in
+    func loadItems() {
+        state = .loading
+        refreshItems { [weak self] items in
             DispatchQueue.main.async {
-                self?.startTimer(timeInterval: TimeInterval(self?.settings?.refreshRate ?? Settings.default.refreshRate))
+                self?.startTimer(timeInterval: TimeInterval(self?.settings.refreshRate ?? Settings.default.refreshRate))
             }
-        }
-    }
-    
-    private func getItems(completion: (([News]) -> Void)? = nil) {
-        newsAggregator.getItems { [weak self] items in
-            print("refresh")
-            guard let `self` = self else { return }
-            self.items = (self.items + items).unique()
-            self.filteredItems = self.filterItems(with: self.settings)
-            self.onDataSourceChanged?(self.filteredItems)
-            self.lastSyncDate = Date()
-            completion?(self.filteredItems)
         }
     }
     
@@ -83,11 +84,10 @@ class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
     }
     
     func settingsWasChanged() {
-        if timer?.timeInterval != TimeInterval(settings?.refreshRate ?? Settings.default.refreshRate) {
-            print("TIMER WAS INVALIDATED")
+        if timer?.timeInterval != TimeInterval(settings.refreshRate) {
             timer?.invalidate()
             DispatchQueue.main.async { [weak self] in
-                self?.startTimer(timeInterval: TimeInterval(self?.settings?.refreshRate ?? Settings.default.refreshRate))
+                self?.startTimer(timeInterval: TimeInterval(self?.settings.refreshRate ?? Settings.default.refreshRate))
             }
         }
         filteredItems = filterItems(with: settings)
@@ -99,13 +99,32 @@ class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
     }
     
     // MARK: - Private
-
+    
+    private func refreshItems(completionHandler: (([News]) -> Void)? = nil) {
+        newsAggregator.getItems { [weak self] (items, error) in
+            if let error = error {
+                self?.state = .error
+                DispatchQueue.main.async {
+                    self?.onErrorEvent?(error.localizedMessage)
+                }
+                return
+            }
+            guard let `self` = self, let items = items else { return }
+            self.items = (self.items + items).unique()
+            self.filteredItems = self.filterItems(with: self.settings)
+            self.onDataSourceChanged?(self.filteredItems)
+            self.lastSyncDate = Date()
+            self.state = .finished
+            completionHandler?(self.filteredItems)
+        }
+    }
+    
     private func startTimer(timeInterval: TimeInterval) {
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(onTimerTick(timer:)), userInfo: nil, repeats: true)
     }
     
     @objc private func onTimerTick(timer: Timer) {
-        getItems()
+        refreshItems()
     }
     
     private func filterItems(with settings: Settings?) -> [News] {

@@ -4,7 +4,6 @@ protocol ISettingsViewModel {
     var settings: Settings { get }
     func numberOfItems() -> Int
     func itemForIndexPath(_ indexPath: IndexPath) -> String?
-    func selectItemForIndexPath(_ indexPath: IndexPath)
     func getSelectedIndexes() -> [IndexPath]
     func saveAction(displayLimit: Int, refreshRate: Int, selectedIndexes: [IndexPath])
     func cancelAction()
@@ -19,13 +18,13 @@ class SettingsViewModel: ISettingsViewModel, ISettingsViewModelCoordinable {
 
     // MARK: - Properties
     
-    private let settingsStorage: IKeyValueStorage = ServiceLocator.getService()
+    private let settingsService: ISettingsService = ServiceLocator.getService()
     private let persistentStorage: IPersistentStorage = ServiceLocator.getService()
     
     private var categories: [String] = []
     
     var settings: Settings {
-        return settingsStorage.getValue(for: "SettingsKey") ?? Settings.default
+        return settingsService.getSettings()
     }
     
     var onSaveAction: (() -> Void)?
@@ -59,16 +58,10 @@ class SettingsViewModel: ISettingsViewModel, ISettingsViewModelCoordinable {
         return categories.enumerated().filter { saved.contains($0.element) }.map { IndexPath(row: $0.offset, section: 0) }
     }
     
-    func selectItemForIndexPath(_ indexPath: IndexPath) {
-        if let item = itemForIndexPath(indexPath) {
-            
-        }
-    }
-    
     func saveAction(displayLimit: Int, refreshRate: Int, selectedIndexes: [IndexPath]) {
         let onlyRows = selectedIndexes.map { $0.row }
         let savedCategories = categories.enumerated().filter { onlyRows.contains($0.offset) }.map { $0.element }
-        settingsStorage.setValue(object: Settings(displayLimit: displayLimit, refreshRate: refreshRate, categories: savedCategories), for: "SettingsKey")
+        settingsService.save(settings: Settings(displayLimit: displayLimit, refreshRate: refreshRate, categories: savedCategories))
         onSaveAction?()
     }
     

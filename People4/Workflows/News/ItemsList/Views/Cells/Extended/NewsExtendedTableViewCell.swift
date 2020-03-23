@@ -25,6 +25,8 @@ class NewsExtendedTableViewCell: UITableViewCell {
         super.prepareForReuse()
         viewModel = nil
         photoView.image = nil
+        titleLabel.text = nil
+        descriptionLabel.text = nil
     }
     
     func configure(with viewModel: INewsTableViewCellViewModel) {

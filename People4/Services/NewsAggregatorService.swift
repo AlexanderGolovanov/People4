@@ -1,12 +1,12 @@
 import Foundation
 
 protocol INewsAggregatorService {
-    func getItems(completionHandler: (([News]) -> Void)?)
+    func getItems(completionHandler: (([News]?, ILocalizedError?) -> Void)?)
     func markAsRead(news: News)
 }
 
 extension INewsAggregatorService {
-    func getItems(completionHandler: (([News]) -> Void)? = nil) {
+    func getItems(completionHandler: (([News]?, ILocalizedError?) -> Void)? = nil) {
         return getItems(completionHandler: completionHandler)
     }
 }
@@ -26,21 +26,28 @@ class NewsAggregatorService: INewsAggregatorService {
         self.sources = sources.map { NewsService(provider: ApiProvider(target: $0)) }
     }
     
-    func getItems(completionHandler: (([News]) -> Void)?) {
+    func getItems(completionHandler: (([News]?, ILocalizedError?) -> Void)?) {
         var news: [News] = []
         sources.forEach { [weak self] newsService in
             guard let `self` = self else { return }
             self.group.enter()
             self.queue.async {
-                newsService.getItems { items in
+                newsService.getItems { (items, error) in
+                    if let error = error {
+                        completionHandler?(nil, error)
+                        self.group.leave()
+                        return
+                    }
                     news.append(contentsOf: items ?? [])
                     self.group.leave()
                 }
             }
         }
+        
         group.notify(queue: queue) { [weak self] in
+            guard news.isEmpty == false else { return }
             self?.storage.saveItems(news)
-            completionHandler?(self?.storage.getItems() ?? [])
+            completionHandler?(self?.storage.getItems(), nil)
         }
     }
     

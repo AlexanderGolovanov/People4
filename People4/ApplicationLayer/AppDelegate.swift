@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServiceLocator.registerService(service: PersistentStorage() as IPersistentStorage)
         ServiceLocator.registerService(service: ImageCacheService() as IImageCacheService)
         ServiceLocator.registerService(service: UserDefaultsStorage() as IKeyValueStorage)
+        ServiceLocator.registerService(service: SettingsService() as ISettingsService)
     }
 }
 

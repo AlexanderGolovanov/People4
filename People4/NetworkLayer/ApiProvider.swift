@@ -1,8 +1,26 @@
 import Foundation
 
+protocol ILocalizedError: Error {
+    var localizedMessage: String { get }
+}
+
 enum ApiError {
     case mappingFailed
     case missingData
+    case networkError(message: String)
+}
+
+extension ApiError: ILocalizedError {
+    var localizedMessage: String {
+        switch self {
+        case .mappingFailed:
+            return "mappingFailed"
+        case .missingData:
+            return "missingData"
+        case .networkError(let message):
+            return message
+        }
+    }
 }
 
 enum ApiTarget: String, Codable {
@@ -13,7 +31,7 @@ enum ApiTarget: String, Codable {
 
 enum ApiResponse<T> {
     case onSuccess(items: [T])
-    case onError(error: ApiError)
+    case onError(error: ILocalizedError)
 }
 
 protocol IApiProvider: class {
@@ -35,6 +53,10 @@ class ApiProvider: IApiProvider {
     func getItems<T: Codable>(completionHandler: @escaping ((ApiResponse<T>) -> Void)) {
         let url = URL(string: target.rawValue)!
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            if let error = error {
+                completionHandler(.onError(error: ApiError.networkError(message: error.localizedDescription)))
+                return
+            }
             guard let data = data, let `self` = self else {
                 completionHandler(.onError(error: ApiError.missingData))
                 return

@@ -11,7 +11,7 @@ class UserDefaultsStorage: IKeyValueStorage {
 
     func setValue<T: Codable>(object: T, for key: String) {
         do {
-            try? storage.set(object: object, forKey: key)
+            try storage.set(object: object, forKey: key)
             storage.synchronize()
         } catch let error {
             print("UserDefaultsStorage - \(error)")
@@ -47,7 +47,6 @@ public extension UserDefaults {
     func set<T: Codable>(object: T, forKey: String) throws {
 
         let jsonData = try JSONEncoder().encode(object)
-
         set(jsonData, forKey: forKey)
     }
 

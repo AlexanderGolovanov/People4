@@ -22,15 +22,24 @@ class News: Equatable, Hashable {
         source = dto.source
     }
     
-    init(dbo: NewsItemDBO) {
-        title = dbo.title ?? ""
-        link = dbo.link ?? URL(string: "http://onime.com")!
-        imageURL = dbo.imageURL
-        date = dbo.date ?? Date(timeIntervalSince1970: 0)
-        description = dbo.text ?? ""
-        category = dbo.category ?? ""
-        source = ApiTarget(rawValue: dbo.source ?? "") ?? .none
-        isReaded = dbo.isReaded
+    init?(dbo: NewsItemDBO) {
+        guard
+            let title = dbo.title,
+            let link = dbo.link,
+            let date = dbo.date,
+            let description = dbo.text,
+            let category = dbo.category,
+            let source = ApiTarget(rawValue: dbo.source ?? "")
+        else { return nil}
+            
+        self.title = title
+        self.link = link
+        self.imageURL = dbo.imageURL
+        self.date = date
+        self.description = dbo.description
+        self.category = category
+        self.source = source
+        self.isReaded = dbo.isReaded
     }
     
     func hash(into hasher: inout Hasher) {

@@ -18,6 +18,8 @@ class NewsListViewController: UIViewController {
 
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var segmentedControl: UISegmentedControl!
+    @IBOutlet private var loadingView: UIView!
+    @IBOutlet private var loadingIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
 
@@ -30,7 +32,7 @@ class NewsListViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         bindToViewModel()
-        viewModel.refreshItems()
+        viewModel.loadItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,6 +61,21 @@ class NewsListViewController: UIViewController {
     // MARK: - Private
 
     private func bindToViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            DispatchQueue.main.async {
+                switch state {
+                case .idle, .loading:
+                    self?.tableView.isHidden = true
+                    self?.loadingView.isHidden = false
+                    self?.loadingIndicator.startAnimating()
+                case .finished:
+                    self?.tableView.isHidden = false
+                    self?.loadingView.isHidden = true
+                case .error:
+                    self?.loadingView.isHidden = true
+                }
+            }
+        }
         viewModel.onDataSourceChanged = { [weak self] items in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()

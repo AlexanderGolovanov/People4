@@ -49,6 +49,11 @@ class NewsCoordinator: BaseCoordinator {
                 vm?.settingsWasChanged()
             }
         }
+        vm.onErrorEvent = { [weak self, weak vm] message in
+            self?.router.displayRetryAlert(with: message) {
+                vm?.loadItems()
+            }
+        }
         vc.viewModel = vm
         return vc
     }

@@ -7,7 +7,6 @@ class NewsDefaultTableViewCell: UITableViewCell {
     @IBOutlet private var photoView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     
-    
     // MARK: - Properties
 
     static let height: CGFloat = 65
@@ -25,6 +24,7 @@ class NewsDefaultTableViewCell: UITableViewCell {
         super.prepareForReuse()
         viewModel = nil
         photoView.image = nil
+        titleLabel.text = nil
     }
     
     func configure(with viewModel: INewsTableViewCellViewModel) {

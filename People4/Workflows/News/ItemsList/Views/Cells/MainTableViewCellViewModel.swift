@@ -36,7 +36,7 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
         if let url = news.imageURL, let cachedVersion = imageCache.getImage(for: url) {
             completionHandler?(cachedVersion)
         } else {
-            DispatchQueue.global().async { [weak self] in
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard
                     let url = self?.news.imageURL,
                     let data = try? Data(contentsOf: url),
