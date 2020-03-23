@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class News: Equatable {
+class News: Equatable, Hashable {
     var title: String
     var link: URL
     var imageURL: URL?
@@ -31,6 +31,10 @@ class News: Equatable {
         category = dbo.category ?? ""
         source = ApiTarget(rawValue: dbo.source ?? "") ?? .none
         isReaded = dbo.isReaded
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(link)
     }
     
     static func == (lhs: News, rhs: News) -> Bool {

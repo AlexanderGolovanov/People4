@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func registerServices() {
         ServiceLocator.registerService(service: PersistentStorage() as IPersistentStorage)
         ServiceLocator.registerService(service: ImageCacheService() as IImageCacheService)
+        ServiceLocator.registerService(service: UserDefaultsStorage() as IKeyValueStorage)
     }
 }
 

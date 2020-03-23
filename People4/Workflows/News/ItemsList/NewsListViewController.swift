@@ -33,6 +33,18 @@ class NewsListViewController: UIViewController {
         viewModel.refreshItems()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     // MARK: - Actions
 
     @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
@@ -40,6 +52,9 @@ class NewsListViewController: UIViewController {
         tableView.reloadSections([0], with: .fade)
     }
     
+    @objc func settingsButtonDidTapped() {
+        viewModel.settingsAction()
+    }
     
     // MARK: - Private
 
@@ -67,6 +82,7 @@ class NewsListViewController: UIViewController {
         segmentedControl.removeAllSegments()
         NewsPresentationSyle.allCases.forEach { segmentedControl.insertSegment(withTitle: $0.title, at: $0.rawValue, animated: false) }
         segmentedControl.selectedSegmentIndex = NewsPresentationSyle.compact.rawValue
+        navigationItem.rightBarButtonItem = .init(title: "Settings", style: .done, target: self, action: #selector(settingsButtonDidTapped))
     }
 }
 

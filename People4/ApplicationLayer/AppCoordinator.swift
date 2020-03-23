@@ -14,14 +14,14 @@ final class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        let tabBarController = UITabBarController()
-        mainCoordinator = MainCoordinator(router: tabBarController)
+        let router = UINavigationController()
+        mainCoordinator = MainCoordinator(router: router)
         mainCoordinator?.completionHandler = { [weak self, weak mainCoordinator] in
             self?.removeDependency(mainCoordinator)
         }
         addDependency(mainCoordinator!)
         mainCoordinator?.start()
-        window.rootViewController = tabBarController
+        window.rootViewController = router
     }
     
 
