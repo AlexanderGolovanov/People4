@@ -17,7 +17,7 @@ protocol INewsDetailsViewModelCoordinable {
     var onBackAction: (() -> Void)? { get }
 }
 
-class NewsDetailsViewModel: INewsDetailsViewModel, ImageCachableViewModel, INewsDetailsViewModelCoordinable {
+class NewsDetailsViewModel: INewsDetailsViewModel, ImageCacheableViewModel, INewsDetailsViewModelCoordinable {
 
     // MARK: - Properties
     

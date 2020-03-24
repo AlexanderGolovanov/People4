@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8427BD1D24299AF9003A6762 /* ImageCacheableViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8427BD1C24299AF9003A6762 /* ImageCacheableViewModelTests.swift */; };
+		8427BD1F24299B19003A6762 /* ImageCachableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8427BD1E24299B18003A6762 /* ImageCachableViewModel.swift */; };
 		8433150C2426526B00727AC7 /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8433150B2426526B00727AC7 /* RSSParser.swift */; };
 		843315142426544800727AC7 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843315132426544800727AC7 /* NewsService.swift */; };
 		843315162426558C00727AC7 /* NewsAggregatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843315152426558C00727AC7 /* NewsAggregatorService.swift */; };
@@ -65,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8427BD1C24299AF9003A6762 /* ImageCacheableViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheableViewModelTests.swift; sourceTree = "<group>"; };
+		8427BD1E24299B18003A6762 /* ImageCachableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCachableViewModel.swift; sourceTree = "<group>"; };
 		8433150B2426526B00727AC7 /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		843315132426544800727AC7 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 		843315152426558C00727AC7 /* NewsAggregatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAggregatorService.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 			children = (
 				846F07AC2421E4C900C841B8 /* People4Tests.swift */,
 				846F07AE2421E4C900C841B8 /* Info.plist */,
+				8427BD1C24299AF9003A6762 /* ImageCacheableViewModelTests.swift */,
 			);
 			path = People4Tests;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 		84E0A8212426822800541B8C /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				8427BD1E24299B18003A6762 /* ImageCachableViewModel.swift */,
 				848B3CF12428947A00725643 /* Array+Extensions.swift */,
 				84A245642429044A003659F1 /* UIViewController+Extensions.swift */,
 			);
@@ -538,6 +544,7 @@
 				84B6C5BB24279913007A9E5F /* MainCoordinator.swift in Sources */,
 				84B6C5B62427985D007A9E5F /* NewsCoordinator.swift in Sources */,
 				843315142426544800727AC7 /* NewsService.swift in Sources */,
+				8427BD1F24299B19003A6762 /* ImageCachableViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +553,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				846F07AD2421E4C900C841B8 /* People4Tests.swift in Sources */,
+				8427BD1D24299AF9003A6762 /* ImageCacheableViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

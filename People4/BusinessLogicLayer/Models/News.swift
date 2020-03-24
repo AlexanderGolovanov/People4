@@ -35,7 +35,7 @@ class News: Equatable, Hashable {
         self.link = link
         self.imageURL = dbo.imageURL
         self.date = date
-        self.description = description
+        self.description = description.isEmpty ? "Empty description" : description
         self.category = category
         self.source = source
         self.isReaded = dbo.isReaded

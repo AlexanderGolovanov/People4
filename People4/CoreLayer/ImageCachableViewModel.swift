@@ -1,10 +1,10 @@
 import UIKit
 
-protocol ImageCachableViewModel: class {
+protocol ImageCacheableViewModel: class {
     func loadImage(completionHandler: ((UIImage?) -> Void)?)
 }
 
-extension ImageCachableViewModel {
+extension ImageCacheableViewModel {
     var imageCache: IImageCacheService {
         return ServiceLocator.getService()
     }
