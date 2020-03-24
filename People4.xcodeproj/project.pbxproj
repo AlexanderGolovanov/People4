@@ -24,7 +24,6 @@
 		844D4D5D2429C96A00C39EDE /* NewsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D4D5C2429C96A00C39EDE /* NewsListViewModelTests.swift */; };
 		844D4D5F2429CA7100C39EDE /* NewsAggregatorServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D4D5E2429CA7100C39EDE /* NewsAggregatorServiceMock.swift */; };
 		844D4D632429CC4600C39EDE /* NewsAggregatorServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D4D622429CC4600C39EDE /* NewsAggregatorServiceTests.swift */; };
-		844D4D662429CDBD00C39EDE /* NewsServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D4D652429CDBD00C39EDE /* NewsServiceMock.swift */; };
 		844D4D682429CE0100C39EDE /* ApiProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D4D672429CE0100C39EDE /* ApiProviderMock.swift */; };
 		846F07932421E4C600C841B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F07922421E4C600C841B8 /* AppDelegate.swift */; };
 		846F079D2421E4C600C841B8 /* People4.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 846F079B2421E4C600C841B8 /* People4.xcdatamodeld */; };
@@ -92,7 +91,6 @@
 		844D4D5C2429C96A00C39EDE /* NewsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewModelTests.swift; sourceTree = "<group>"; };
 		844D4D5E2429CA7100C39EDE /* NewsAggregatorServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAggregatorServiceMock.swift; sourceTree = "<group>"; };
 		844D4D622429CC4600C39EDE /* NewsAggregatorServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAggregatorServiceTests.swift; sourceTree = "<group>"; };
-		844D4D652429CDBD00C39EDE /* NewsServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsServiceMock.swift; sourceTree = "<group>"; };
 		844D4D672429CE0100C39EDE /* ApiProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProviderMock.swift; sourceTree = "<group>"; };
 		846F078F2421E4C600C841B8 /* People4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = People4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846F07922421E4C600C841B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				844D4D5E2429CA7100C39EDE /* NewsAggregatorServiceMock.swift */,
-				844D4D652429CDBD00C39EDE /* NewsServiceMock.swift */,
 				844D4D672429CE0100C39EDE /* ApiProviderMock.swift */,
 			);
 			path = Mocks;
@@ -597,7 +594,6 @@
 				844D4D632429CC4600C39EDE /* NewsAggregatorServiceTests.swift in Sources */,
 				844D4D5B2429C35700C39EDE /* RSSParserTests.swift in Sources */,
 				8482809F2429A76C0033A50D /* NewsServiceTests.swift in Sources */,
-				844D4D662429CDBD00C39EDE /* NewsServiceMock.swift in Sources */,
 				8427BD1D24299AF9003A6762 /* ImageCacheableViewModelTests.swift in Sources */,
 				844D4D5F2429CA7100C39EDE /* NewsAggregatorServiceMock.swift in Sources */,
 				844D4D5D2429C96A00C39EDE /* NewsListViewModelTests.swift in Sources */,
