@@ -10,7 +10,6 @@ class News: Equatable, Hashable {
     var description: String
     var source: ApiTarget
     var isReaded: Bool = false
-    var cachedImage: UIImage?
     
     init(dto: NewsItemDTO) {
         title = dto.title

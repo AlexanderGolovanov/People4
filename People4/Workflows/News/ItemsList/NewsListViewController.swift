@@ -1,6 +1,6 @@
 import UIKit
 
-enum NewsPresentationSyle: Int, CaseIterable {
+enum NewsPresentationStyle: Int, CaseIterable {
     case compact = 0
     case detail = 1
     
@@ -24,7 +24,7 @@ class NewsListViewController: UIViewController {
     // MARK: - Properties
 
     var viewModel: INewsListViewModel!
-    private var style: NewsPresentationSyle = .compact
+    private var style: NewsPresentationStyle = .compact
     
     // MARK: - Lifecycle
 
@@ -50,7 +50,7 @@ class NewsListViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func segmentValueChanged(_ sender: UISegmentedControl) {
-        style = NewsPresentationSyle(rawValue: sender.selectedSegmentIndex) ?? .compact
+        style = NewsPresentationStyle(rawValue: sender.selectedSegmentIndex) ?? .compact
         tableView.reloadSections([0], with: .fade)
     }
     
@@ -97,8 +97,8 @@ class NewsListViewController: UIViewController {
         tableView.tableHeaderView = UIView()
         tableView.tableFooterView = UIView()
         segmentedControl.removeAllSegments()
-        NewsPresentationSyle.allCases.forEach { segmentedControl.insertSegment(withTitle: $0.title, at: $0.rawValue, animated: false) }
-        segmentedControl.selectedSegmentIndex = NewsPresentationSyle.compact.rawValue
+        NewsPresentationStyle.allCases.forEach { segmentedControl.insertSegment(withTitle: $0.title, at: $0.rawValue, animated: false) }
+        segmentedControl.selectedSegmentIndex = NewsPresentationStyle.compact.rawValue
         navigationItem.rightBarButtonItem = .init(title: "Settings", style: .done, target: self, action: #selector(settingsButtonDidTapped))
     }
 }

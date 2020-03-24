@@ -5,8 +5,9 @@ protocol INewsDetailsViewModel {
     var date: Date { get }
     var category: String { get }
     var description: String { get }
-    var image: UIImage? { get }
     var source: String { get }
+    
+    func loadImage(completionHandler: ((UIImage?) -> Void)?)
     func markAsRead()
     func backAction()
 }
@@ -16,7 +17,7 @@ protocol INewsDetailsViewModelCoordinable {
     var onBackAction: (() -> Void)? { get }
 }
 
-class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordinable {
+class NewsDetailsViewModel: INewsDetailsViewModel, ImageCachableViewModel, INewsDetailsViewModelCoordinable {
 
     // MARK: - Properties
     
@@ -40,11 +41,7 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
     }
     
     var source: String {
-        return news.link.host ?? ""
-    }
-    
-    var image: UIImage? {
-        return news.cachedImage
+        return news.source.rawValue
     }
     
     var onReadingNews: ((News) -> Void)?
@@ -62,10 +59,15 @@ class NewsDetailsViewModel: INewsDetailsViewModel, INewsDetailsViewModelCoordina
         onReadingNews?(news)
     }
     
+    func loadImage(completionHandler: ((UIImage?) -> Void)?) {
+        guard let url = news.imageURL else {
+            completionHandler?(nil)
+            return
+        }
+        loadImage(url: url, completionHandler: completionHandler)
+    }
+    
     func backAction() {
         onBackAction?()
     }
-    
-    // MARK: - Private
-
 }

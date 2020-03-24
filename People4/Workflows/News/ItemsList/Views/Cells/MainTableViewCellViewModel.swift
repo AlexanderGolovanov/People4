@@ -4,15 +4,14 @@ protocol INewsTableViewCellViewModel {
     var title: String { get }
     var description: String { get }
     var isReaded: Bool { get }
-    func loadImage(completionHandler: ((UIImage) -> Void)?)
+    func loadImage(completionHandler: ((UIImage?) -> Void)?)
 }
 
-class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
+class NewsTableViewCellViewModel: INewsTableViewCellViewModel, ImageCachableViewModel {
     
     // MARK: - Properties
     
     private let news: News
-    private let imageCache: IImageCacheService = ServiceLocator.getService()
     
     var title: String {
         return news.title
@@ -32,21 +31,13 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel {
         self.news = model
     }
 
-    func loadImage(completionHandler: ((UIImage) -> Void)?) {
-        if let url = news.imageURL, let cachedVersion = imageCache.getImage(for: url) {
-            completionHandler?(cachedVersion)
-        } else {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard
-                    let url = self?.news.imageURL,
-                    let data = try? Data(contentsOf: url),
-                    let image = UIImage(data: data)
-                    else { return }
-                self?.imageCache.insertImage(image, for: url)
-                self?.news.cachedImage = image
-                completionHandler?(image)
-            }
+    func loadImage(completionHandler: ((UIImage?) -> Void)?) {
+        return
+        guard let url = news.imageURL else {
+            completionHandler?(nil)
+            return
         }
+        loadImage(url: url, completionHandler: completionHandler)
     }
 }
 

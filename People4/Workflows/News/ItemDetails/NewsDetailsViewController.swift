@@ -43,8 +43,12 @@ class NewsDetailsViewController: UIViewController {
         descriptionLabel.text = viewModel.description
         categoryLabel.text = viewModel.category
         dateLabel.text = getDateFormatter().string(from: viewModel.date)
-        imageView.image = viewModel.image
         sourceLabel.text = viewModel.source
+        viewModel.loadImage { [weak self] image in
+            DispatchQueue.main.async {
+                self?.imageView.image = image
+            }
+        }
     }
     
     private func getDateFormatter() -> DateFormatter {
