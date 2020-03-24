@@ -1,32 +1,59 @@
-//
-//  ImageCacheableViewModelTests.swift
-//  People4Tests
-//
-//  Created by admin on 24.03.2020.
-//
-
 import XCTest
+@testable import People4
+
+class ImageCacheableViewModel: IImageCacheableViewModel {}
 
 class ImageCacheableViewModelTests: XCTestCase {
 
+    var viewModel: IImageCacheableViewModel!
+    var fakeNews: News!
+    var normalNews: News!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        fakeNews = News(title: "Test News", link: URL(string: "http://google.com")!, imageURL: URL(string: "http://google.com")!, date: Date(), category: "Sample category", description: "Sample description", source: .lenta)
+        normalNews = News(title: "Test News", link: URL(string: "http://google.com")!, imageURL: URL(string: "https://habrastorage.org/webt/3d/xw/t5/3dxwt5scumx16ymje6dqhbn0utk.png")!, date: Date(), category: "Sample category", description: "Sample description", source: .lenta)
+        viewModel = ImageCacheableViewModel()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        viewModel = nil
+        fakeNews = nil
+        normalNews = nil
+        super.tearDown()
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testLoadImageByFakeURL() {
+        let expectation = XCTestExpectation(description: "Loading image")
+        guard let url = fakeNews.imageURL else {
+            XCTFail("Image is nill")
+            return
         }
+        viewModel.loadImage(url: url) { result in
+            switch result {
+            case .failure: break
+            case .success:
+                XCTFail("12")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
     }
-
+    
+    func testLoadNormalImage() {
+        let expectation = XCTestExpectation(description: "Loading image")
+        guard let url = normalNews.imageURL else {
+            XCTFail("Image is nill")
+            return
+        }
+        viewModel.loadImage(url: url) { result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+    }
 }

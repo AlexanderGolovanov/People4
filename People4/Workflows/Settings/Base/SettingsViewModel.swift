@@ -33,7 +33,7 @@ class SettingsViewModel: ISettingsViewModel, ISettingsViewModelCoordinable {
     // MARK: - Lifecycle
 
     init() {
-        categories = persistentStorage.getItems().map { $0.category }.unique().sorted()
+        categories = persistentStorage.getItems().compactMap { $0.category }.unique().sorted()
     }
 
     deinit {

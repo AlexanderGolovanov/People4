@@ -7,7 +7,7 @@ protocol INewsTableViewCellViewModel {
     func loadImage(completionHandler: ((UIImage?) -> Void)?)
 }
 
-class NewsTableViewCellViewModel: INewsTableViewCellViewModel, ImageCacheableViewModel {
+class NewsTableViewCellViewModel: INewsTableViewCellViewModel, IImageCacheableViewModel {
     
     // MARK: - Properties
     
@@ -36,7 +36,15 @@ class NewsTableViewCellViewModel: INewsTableViewCellViewModel, ImageCacheableVie
             completionHandler?(nil)
             return
         }
-        loadImage(url: url, completionHandler: completionHandler)
+        loadImage(url: url) { result in
+            switch result {
+            case .success(let image):
+                completionHandler?(image)
+            case .failure(let error):
+                print(error)
+                completionHandler?(nil)
+            }
+        }
     }
 }
 

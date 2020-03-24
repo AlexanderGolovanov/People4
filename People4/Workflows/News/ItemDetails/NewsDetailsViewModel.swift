@@ -17,7 +17,7 @@ protocol INewsDetailsViewModelCoordinable {
     var onBackAction: (() -> Void)? { get }
 }
 
-class NewsDetailsViewModel: INewsDetailsViewModel, ImageCacheableViewModel, INewsDetailsViewModelCoordinable {
+class NewsDetailsViewModel: INewsDetailsViewModel, IImageCacheableViewModel, INewsDetailsViewModelCoordinable {
 
     // MARK: - Properties
     
@@ -33,7 +33,7 @@ class NewsDetailsViewModel: INewsDetailsViewModel, ImageCacheableViewModel, INew
     }
     
     var category: String {
-        return news.category
+        return news.category ?? ""
     }
     
     var description: String {
@@ -41,7 +41,11 @@ class NewsDetailsViewModel: INewsDetailsViewModel, ImageCacheableViewModel, INew
     }
     
     var source: String {
-        return news.source.rawValue
+        switch news.source {
+        case .lenta: return "Lenta"
+        case .gazeta: return "Gazeta"
+        case .none: return ""
+        }
     }
     
     var onReadingNews: ((News) -> Void)?
@@ -64,7 +68,15 @@ class NewsDetailsViewModel: INewsDetailsViewModel, ImageCacheableViewModel, INew
             completionHandler?(nil)
             return
         }
-        loadImage(url: url, completionHandler: completionHandler)
+        loadImage(url: url) { result in
+            switch result {
+            case .success(let image):
+                completionHandler?(image)
+            case .failure(let error):
+                print(error)
+                completionHandler?(nil)
+            }
+        }
     }
     
     func backAction() {

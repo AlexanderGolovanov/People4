@@ -2,13 +2,13 @@ import Foundation
 import UIKit
 
 class News: Equatable, Hashable {
-    var title: String
-    var link: URL
-    var imageURL: URL?
-    var date: Date
-    var category: String
-    var description: String
-    var source: ApiTarget
+    let title: String
+    let link: URL
+    let imageURL: URL?
+    let date: Date
+    let category: String?
+    let description: String
+    let source: ApiTarget
     var isReaded: Bool = false
     
     init(dto: NewsItemDTO) {
@@ -27,7 +27,6 @@ class News: Equatable, Hashable {
             let link = dbo.link,
             let date = dbo.date,
             let description = dbo.text,
-            let category = dbo.category,
             let source = ApiTarget(rawValue: dbo.source ?? "")
         else { return nil}
             
@@ -36,9 +35,20 @@ class News: Equatable, Hashable {
         self.imageURL = dbo.imageURL
         self.date = date
         self.description = description.isEmpty ? "Empty description" : description
-        self.category = category
+        self.category = dbo.category
         self.source = source
         self.isReaded = dbo.isReaded
+    }
+    
+    init(title: String, link: URL, imageURL: URL?, date: Date, category: String?, description: String, source: ApiTarget, isReaded: Bool = false) {
+        self.title = title
+        self.link = link
+        self.imageURL = imageURL
+        self.date = date
+        self.category = category
+        self.description = description
+        self.source = source
+        self.isReaded = isReaded
     }
     
     func hash(into hasher: inout Hasher) {

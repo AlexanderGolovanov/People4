@@ -129,8 +129,12 @@ class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
     
     private func filterItems(with settings: Settings?) -> [News] {
         if let settings = settings {
-             let bottomDate = Calendar.current.date(byAdding: .hour, value: -settings.displayLimit, to: Date()) ?? Date()
-            return items.filter { $0.date >= bottomDate && (settings.categories.isEmpty ? true : settings.categories.contains($0.category)) }.sorted(by: { $0.date > $1.date })
+            let bottomDate = Calendar.current.date(byAdding: .hour, value: -settings.displayLimit, to: Date()) ?? Date()
+            return items.filter { item in
+                let categoryExist = item.category == nil ? true : settings.categories.contains(item.category!)
+                return item.date >= bottomDate && (settings.categories.isEmpty ? true : categoryExist)
+            }
+            .sorted(by: { $0.date > $1.date })
         }
         return items
     }
