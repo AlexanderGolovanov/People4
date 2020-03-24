@@ -22,7 +22,7 @@ class NewsDetailsViewModel: INewsDetailsViewModel, IImageCacheableViewModel, INe
     // MARK: - Properties
     
     private let news: News
-    private let newsAggregator = NewsAggregatorService(sources: .gazeta, .lenta)
+    private let newsAggregator: INewsAggregatorService = ServiceLocator.getService()
     
     var title: String {
         return news.title

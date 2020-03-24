@@ -27,7 +27,7 @@ class NewsListViewModel: INewsListViewModel, INewsListViewModelCoordinable {
 
     private var items: [News] = []
     private var filteredItems: [News] = []
-    private let newsAggregator = NewsAggregatorService(sources: .gazeta, .lenta)
+    private let newsAggregator: INewsAggregatorService = ServiceLocator.getService()
     private let settingsService: ISettingsService = ServiceLocator.getService()
     private var lastSyncDate = Date()
     private var timer: Timer?

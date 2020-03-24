@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServiceLocator.registerService(service: ImageCacheService() as IImageCacheService)
         ServiceLocator.registerService(service: UserDefaultsStorage() as IKeyValueStorage)
         ServiceLocator.registerService(service: SettingsService() as ISettingsService)
+        ServiceLocator.registerService(service: NewsAggregatorService(sources: NewsService(provider: ApiProvider(target: .lenta)), NewsService(provider: ApiProvider(target: .gazeta))) as INewsAggregatorService)
     }
 }
 

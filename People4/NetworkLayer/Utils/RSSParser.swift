@@ -32,7 +32,7 @@ class RSSParser: NSObject, XMLParserDelegate {
         return formatter
     }()
     
-    public var completion: (([NewsItemDTO]) -> Void)?
+    private var completion: (([NewsItemDTO]) -> Void)?
     
     // MARK: - Lifecycle
     

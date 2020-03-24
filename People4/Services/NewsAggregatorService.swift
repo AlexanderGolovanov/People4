@@ -22,8 +22,8 @@ class NewsAggregatorService: INewsAggregatorService {
     
     // MARK: - Lifecycle
     
-    init(sources: ApiTarget...) {
-        self.sources = sources.map { NewsService(provider: ApiProvider(target: $0)) }
+    init(sources: INewsService...) {
+        self.sources = sources
     }
     
     func getItems(completionHandler: (([News]?, ILocalizedError?) -> Void)?) {
